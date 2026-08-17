@@ -21,6 +21,24 @@ IMPORTANT: This lab has a specific metric verification step that must pass befor
 - Week 4 complete: k3d cluster running, application deployed, OpenTofu managing Kubernetes resources
 - `helm` available in the container (installed in this lab)
 
+## Pulling This Week's Starter Content Into Your Team Repo
+
+This repo (`inet4031-week05`) is instructor-provided starter/reference content for
+Week 5, not something you clone standalone. Pull the pieces you need into your
+team's single repo:
+
+```bash
+git remote add week5 https://github.com/INET4031-Labs/inet4031-week05.git
+git fetch week5
+git checkout week5/main -- prometheus-values.yaml smoke-test.js scripts docs
+mkdir -p week-5
+mv prometheus-values.yaml smoke-test.js week-5/
+git remote remove week5
+```
+
+Do this before you start editing `week-5/` locally, or your local changes will be
+silently overwritten by the checkout.
+
 ## Sprint Review: Sprint 2
 
 ### Step 1: Move Sprint 2 Items to Done
