@@ -1,0 +1,29 @@
+---
+# Prometheus Stack Values Configuration
+# This file configures the kube-prometheus-stack Helm chart deployment
+# It explicitly enables cAdvisor and kubelet scraping, which is required for Week 9
+
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+# TODO: Review kubelet configuration
+# The kubelet ServiceMonitor must be enabled and configured to use HTTPS
+# This enables Prometheus to scrape the container_cpu_cfs_throttled_seconds_total metric
+kubelet:
+  enabled: true
+  serviceMonitor:
+    https: true
+
+# TODO: Change the default Grafana admin password for your environment
+# DO NOT use this password in production
+grafana:
+  adminPassword: "changethis"
+  service:
+    type: NodePort
+    nodePort: 30080
+
+# TODO: Alertmanager is enabled for alert routing
+# You will configure specific alert rules during Part 3
+alertmanager:
+  enabled: true
