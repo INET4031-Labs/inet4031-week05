@@ -306,7 +306,7 @@ Expected: at least one row containing `kubelet`.
 
 ```bash
 curl -s 'http://localhost:9090/api/v1/query?query=container_cpu_cfs_throttled_seconds_total' \
-  | python3 -c "import json,sys; d=json.load(sys.stdin); print('PASS') if d['data']['result'] else print('FAIL')\"
+  | python3 -c "import json,sys; d=json.load(sys.stdin); print('PASS') if d['data']['result'] else print('FAIL')"
 ```
 
 Expected output: `PASS`
