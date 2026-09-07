@@ -1,12 +1,9 @@
-# QA Report - Sprint 3
+# QA Report - Sprint 3 Week 5
 
-**Sprint:** 3 (Week 5)
+QA is responsible for running all validation checks and signing off before deliverables are submitted. This report documents the validation process.
 
-**QA Lead:** [TODO: Add QA lead name]
-
-**Report Date:** [TODO: Add date]
-
-**Testing Period:** [TODO: Add start and end dates of Sprint 3]
+**QA Team Member:** [Name]
+**Date Completed:** [Date]
 
 ## Executive Summary
 
@@ -107,33 +104,6 @@ TODO: Document metrics observed during load test and any anomalies.
 - [ ] kubelet ServiceMonitor exists: PASS/FAIL
 - [ ] container_cpu_cfs_throttled_seconds_total returns data: PASS/FAIL
 
-**Notes:**
-TODO: Record any validation failures and corrective actions taken.
-
-## Issues Found
-
-### Issue 1: [TODO: Add issue title]
-
-**Severity:** [Critical/High/Medium/Low]
-
-**Description:** 
-TODO: Describe the issue, including when it was detected and under what conditions.
-
-**Impact:** 
-TODO: How does this issue affect the lab requirements and Week 9 dependency?
-
-**Root Cause:** 
-TODO: What caused the issue?
-
-**Resolution:** 
-TODO: How was it fixed or what action items remain?
-
-**Status:** [Open/Closed]
-
-### Issue 2: [TODO: Add if needed]
-
-[Repeat issue template above]
-
 ## Cross-Week Dependency Verification
 
 **Week 9 CPU Throttling Diagnosis Dependency:**
@@ -148,32 +118,6 @@ TODO: How was it fixed or what action items remain?
 **Notes:** 
 TODO: Confirm that the Week 5 configuration will support Week 9's CPU diagnosis lab. If any issues, document them here.
 
-## Test Artifacts
-
-### Logs Captured
-
-TODO: Document location of test logs and output files:
-
-```
-Helm install logs: [TODO: Location or note "not captured"]
-Prometheus startup logs: kubectl logs -n monitoring [pod-name]
-Grafana access logs: [TODO: Not typically captured]
-k6 test output: [TODO: Save console output]
-Validation script output: [TODO: Save output]
-```
-
-### Screenshots Captured
-
-- [ ] Helm installation complete
-- [ ] All monitoring pods running
-- [ ] Prometheus query result for throttling metric
-- [ ] Flask USE Dashboard
-- [ ] Grafana alert configuration
-- [ ] k6 load test output
-- [ ] Validation script passing
-
-Location: Team Google Doc "Week 5 Screenshots" section
-
 ## Recommendations
 
 TODO: Provide recommendations for the team going forward:
@@ -182,16 +126,22 @@ TODO: Provide recommendations for the team going forward:
 2. [TODO: Second recommendation]
 3. [TODO: Third recommendation - extend section if needed]
 
-## Sign-Off
+## Summary
 
-QA Lead: [TODO: Name]
+**Overall Status:** [ ] ALL CHECKS PASS [ ] SOME CHECKS FAIL
 
-Date Completed: [TODO: Date]
+**Blockers:** [List any blockers that prevent submission]
 
-Overall Result: [ ] PASS [ ] FAIL
+**Corrective Actions Taken:** [List any fixes applied during QA]
 
-Approval for Week 6 Handoff: [ ] Yes [ ] No
+**QA Sign-Off:**
 
-Additional QA Notes:
+By signing below, QA certifies that all required validation checks have been executed and all deliverables meet the acceptance criteria.
 
-TODO: Any final observations or concerns for the next sprint.
+**QA Signature:** _________________    **Date:** __________
+
+---
+
+## Notes for Sprint 4
+
+[Any observations or recommendations for the next sprint]
