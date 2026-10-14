@@ -1,147 +1,162 @@
-# QA Report - Sprint 3 Week 5
+# QA Report: Sprint 3 Week 6
 
-QA is responsible for running all validation checks and signing off before deliverables are submitted. This report documents the validation process.
+**Owned by:** QA
 
-**QA Team Member:** [Name]
-**Date Completed:** [Date]
+This report documents the results of validation testing at the end of the async week. It includes check script results, acceptance criteria verification, and any rework required before marking deliverables complete.
 
-## Executive Summary
-
-TODO: Provide a brief summary of the testing results, including pass/fail status and any critical issues found.
-
-## Test Coverage
-
-### Test Suite 1: Helm and Prometheus Installation
-
-- [ ] Helm installation successful
-- [ ] Prometheus community repository added
-- [ ] kube-prometheus-stack deployed without errors
-- [ ] All monitoring pods reached Running state
-
-**Result:** [TODO: PASS/FAIL]
-
-**Notes:** 
-TODO: Record any observations about the installation process, timeouts, or resource constraints.
-
-### Test Suite 2: Prometheus Metric Collection (MANDATORY)
-
-- [ ] Prometheus scraping pod metrics
-- [ ] kubelet ServiceMonitor exists
-- [ ] Prometheus query for `container_cpu_cfs_throttled_seconds_total` returns data
-- [ ] At least one metric series returned
-
-**Result:** [TODO: PASS/FAIL - THIS IS MANDATORY FOR WEEK 9]
-
-**Metric Series Count:** [TODO: Number of series returned]
-
-**Notes:**
-TODO: If this test fails, record what was attempted to fix it (upgrade, reconfigure, etc.)
-
-### Test Suite 3: Grafana Dashboard Creation
-
-- [ ] Grafana accessible and login works
-- [ ] Flask USE Dashboard created
-- [ ] CPU Utilization panel created and displays data
-- [ ] CPU Throttle Rate panel created and displays data
-- [ ] HTTP 5xx Error Rate panel created and displays data
-
-**Result:** [TODO: PASS/FAIL]
-
-**Panels Verified:**
-- [ ] Flask CPU Utilization: [TODO: Data visible Y/N]
-- [ ] Flask CPU Throttle Rate: [TODO: Data visible Y/N]
-- [ ] HTTP 5xx Error Rate: [TODO: Data visible Y/N]
-
-**Notes:**
-TODO: Record any issues with panel queries or metric availability.
-
-### Test Suite 4: Grafana Alerts
-
-- [ ] Error rate alert configured
-- [ ] Alert threshold set correctly (> 1%)
-- [ ] Alert duration set correctly (1 minute)
-- [ ] Alert rule saved
-
-**Result:** [TODO: PASS/FAIL]
-
-**Notes:**
-TODO: Record alert configuration details and any issues encountered.
-
-### Test Suite 5: k6 Load Testing
-
-- [ ] k6 installed successfully
-- [ ] smoke-test.js created and formatted correctly
-- [ ] Load test runs without errors
-- [ ] Grafana metrics respond to load test activity
-
-**Result:** [TODO: PASS/FAIL]
-
-**Test Parameters:**
-- Virtual users: [TODO: Record vus value]
-- Duration: [TODO: Record duration]
-- Requests per user: [TODO: Estimate]
-
-**Metrics Observed:**
-- CPU utilization increased: Yes/No
-- Memory utilization increased: Yes/No
-- Network activity increased: Yes/No
-- HTTP requests recorded: Yes/No
-
-**Notes:**
-TODO: Document metrics observed during load test and any anomalies.
-
-### Test Suite 6: Validation Scripts
-
-- [ ] check-week5.sh exists and is executable
-- [ ] All validation checks pass
-- [ ] Exit code is 0
-- [ ] Script output is clear and actionable
-
-**Result:** [TODO: PASS/FAIL]
-
-**Validation Results:**
-- [ ] All monitoring pods running: PASS/FAIL
-- [ ] kubelet ServiceMonitor exists: PASS/FAIL
-- [ ] container_cpu_cfs_throttled_seconds_total returns data: PASS/FAIL
-
-## Cross-Week Dependency Verification
-
-**Week 9 CPU Throttling Diagnosis Dependency:**
-
-- [ ] Prometheus is scraping kubelet metrics
-- [ ] Query for `rate(container_cpu_cfs_throttled_seconds_total[5m])` returns data
-- [ ] Metric series is non-empty and consistent
-- [ ] No manual fixes required; this will persist across restarts
-
-**Status:** [VERIFIED/NOT VERIFIED]
-
-**Notes:** 
-TODO: Confirm that the Week 5 configuration will support Week 9's CPU diagnosis lab. If any issues, document them here.
-
-## Recommendations
-
-TODO: Provide recommendations for the team going forward:
-
-1. [TODO: First recommendation - e.g., "Monitor disk growth if adding more custom dashboards"]
-2. [TODO: Second recommendation]
-3. [TODO: Third recommendation - extend section if needed]
-
-## Summary
-
-**Overall Status:** [ ] ALL CHECKS PASS [ ] SOME CHECKS FAIL
-
-**Blockers:** [List any blockers that prevent submission]
-
-**Corrective Actions Taken:** [List any fixes applied during QA]
-
-**QA Sign-Off:**
-
-By signing below, QA certifies that all required validation checks have been executed and all deliverables meet the acceptance criteria.
-
-**QA Signature:** _________________    **Date:** __________
+This file is completed at the end of Week 6 after both GitHub Actions workflows are committed, branch protection is enforced, and the failing-build exercise has been observed end to end.
 
 ---
 
-## Notes for Sprint 4
+## Validation Check Results
 
-[Any observations or recommendations for the next sprint]
+### Check 1: CI Workflow Passes on main
+
+**Test:** Navigate to the Actions tab. Check the most recent run on `main`.
+
+**Expected:** Green checkmark -- CI workflow completed successfully.
+
+**Actual Result:**
+```
+TODO: Paste the run status/link
+```
+
+**Status:** TODO: [ ] Pass [ ] Fail
+
+**Notes:** If it failed, what did the run's error output show?
+
+---
+
+### Check 2: Branch Protection Configured
+
+**Test:** Navigate to Settings > Branches and inspect the `main` rule.
+
+**Expected:** Rule exists, requires the `build-and-push` status check, requires a PR before merging, requires branches to be up to date.
+
+**Actual Result:**
+```
+TODO: Paste or describe the rule's configuration
+```
+
+**Status:** TODO: [ ] Pass [ ] Fail
+
+**Notes:** Was anything missing from the rule?
+
+---
+
+### Check 3: Scheduled Workflow Runs Successfully
+
+**Test:** In the Actions tab, manually trigger "Scheduled Maintenance" (`workflow_dispatch`).
+
+**Expected:** Workflow shows a green checkmark on completion.
+
+**Actual Result:**
+```
+TODO: Paste the run status/link
+```
+
+**Status:** TODO: [ ] Pass [ ] Fail
+
+**Notes:** If it failed, was the failure in the Trivy scan step or elsewhere?
+
+---
+
+### Check 4: Check Script Passes
+
+**Test:** Run `./scripts/check-week6.sh`
+
+**Expected:** All automatable checks pass with exit code 0
+
+**Actual Result:**
+```
+TODO: Paste the full output of the check script
+```
+
+**Status:** TODO: [ ] Pass [ ] Fail
+
+**Notes:** This script only checks what's verifiable from inside the container (workflow files exist, are valid YAML, have the right triggers). It cannot check CI passing on main, branch protection, or the scheduled workflow's own run history -- those three still need manual confirmation in the GitHub UI per Checks 1-3 above.
+
+---
+
+## Acceptance Criteria Verification
+
+Review the criteria below for each part of this week's deliverables. For each criterion, record whether it was met:
+
+### Part 1: CI Pipeline for Docker Build and Push
+
+TODO: [ ] `.github/workflows/ci.yml` created and committed
+TODO: [ ] Workflow triggers on `push` to main, `pull_request` to main, and `workflow_dispatch`
+TODO: [ ] Logs in to `ghcr.io` using `GITHUB_TOKEN` (no personal access token needed)
+TODO: [ ] Image tagged via `docker/metadata-action` (sha, branch ref, and `latest` on main)
+TODO: [ ] Push step conditional on not being a `pull_request` event (PRs build but don't push)
+TODO: [ ] First workflow run after push completed successfully
+
+### Part 2: Workflow Secrets and Branch Protection
+
+TODO: [ ] `SLACK_WEBHOOK_URL` secret created under Settings > Secrets and variables > Actions
+TODO: [ ] Branch protection rule added on `main` requiring the `build-and-push` status check
+TODO: [ ] "Require branches to be up to date before merging" enabled
+TODO: [ ] `test/failing-build` branch created with an intentional Dockerfile syntax error
+TODO: [ ] PR from `test/failing-build` showed the merge button disabled while CI failed (screenshot captured)
+TODO: [ ] Dockerfile fixed, CI re-ran and passed, PR merged, test branch deleted (screenshot captured)
+
+### Part 3: Scheduled Maintenance Workflow
+
+TODO: [ ] `.github/workflows/scheduled-maintenance.yml` created and committed
+TODO: [ ] Cron trigger set to `0 8 * * 1` (08:00 UTC every Monday), plus `workflow_dispatch` for manual runs
+TODO: [ ] Job has `permissions: packages: read` and logs in to `ghcr.io` before scanning (the image is a private package -- Trivy needs credentials, not just a valid reference)
+TODO: [ ] Image reference is lowercased before being passed to Trivy (`${{ github.repository }}` includes the org name as-cased on GitHub, which breaks reference parsing if it contains uppercase letters)
+TODO: [ ] Manually triggered run completed successfully (screenshot captured)
+
+---
+
+## Deliverables Verification
+
+### Required Files
+
+TODO: [ ] `.github/workflows/ci.yml` is committed (build and push, manual trigger)
+TODO: [ ] `.github/workflows/scheduled-maintenance.yml` is committed
+TODO: [ ] `scripts/check-week6.sh` is present and runs clean
+
+### GitHub Repository
+
+TODO: [ ] Branch protection rule configured on `main`
+TODO: [ ] `test/failing-build` branch deleted after merge
+TODO: [ ] All changes pushed to the main branch
+
+### Google Doc
+
+TODO: [ ] Screenshot of failed CI blocking a merge is attached
+TODO: [ ] Screenshot of passing CI after the fix is attached
+TODO: [ ] Screenshot of the Scheduled Maintenance workflow run showing success is attached
+TODO: [ ] Screenshot of `./scripts/check-week6.sh` passing is attached
+TODO: [ ] Discussion answers recorded (CI trigger tradeoffs, secret masking limitations, branch protection bypass governance, cron vs. systemd timers)
+TODO: [ ] Week 6 storage check values recorded (`df -h`, `docker system df`)
+
+---
+
+## Rework Required
+
+If any validation checks or acceptance criteria failed, document the rework needed:
+
+**Issues Found:**
+```
+TODO: List any failures here
+```
+
+**Rework Plan:**
+```
+TODO: For each failure, describe the steps to fix it and who will do the work
+```
+
+**Re-validation Date:** TODO: When will rework be complete?
+
+---
+
+## Sign-Off
+
+**QA Name:** ______________________
+**Date Signed:** ______________________
+**Overall Status:** TODO: [ ] All Criteria Met [ ] Rework Required
+
+**Notes:** Any final observations about the sprint's technical quality and team coordination.
