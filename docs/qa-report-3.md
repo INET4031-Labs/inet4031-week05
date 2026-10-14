@@ -15,7 +15,7 @@ TODO: Provide a brief summary of the testing results, including pass/fail status
 
 - [ ] Helm installation successful
 - [ ] Prometheus community repository added
-- [ ] kube-prometheus-stack deployed without errors
+- [ ] Prometheus (`prometheus` chart 29.35.0) deployed without errors
 - [ ] All monitoring pods reached Running state
 
 **Result:** [TODO: PASS/FAIL]
@@ -108,7 +108,7 @@ TODO: Document metrics observed during load test and any anomalies.
 
 **Week 9 CPU Throttling Diagnosis Dependency:**
 
-- [ ] Prometheus is scraping kubelet metrics
+- [ ] Prometheus is scraping cAdvisor metrics
 - [ ] Query for `rate(container_cpu_cfs_throttled_periods_total[5m])` returns data
 - [ ] Metric series is non-empty and consistent
 - [ ] No manual fixes required; this will persist across restarts
