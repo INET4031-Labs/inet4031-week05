@@ -36,23 +36,23 @@ check_status() {
 
     if [ $result -eq 0 ]; then
         echo -e "${GREEN}[PASS]${NC} $check_name"
-        ((PASSED++))
+        PASSED=$((PASSED + 1))
     else
         echo -e "${RED}[FAIL]${NC} $check_name"
-        ((FAILED++))
+        FAILED=$((FAILED + 1))
     fi
 }
 
 echo "Checking Helm installation..."
 if command -v helm &> /dev/null; then
     HELM_VERSION=$(helm version --short 2>/dev/null || echo "")
-    if [[ $HELM_VERSION == *"v3"* ]]; then
-        check_status "Helm v3 installed" 0
+    if [[ $HELM_VERSION == *"v3"* || $HELM_VERSION == *"v4"* ]]; then
+        check_status "Helm installed" 0
     else
-        check_status "Helm v3 installed" 1
+        check_status "Helm installed" 1
     fi
 else
-    check_status "Helm v3 installed" 1
+    check_status "Helm installed" 1
 fi
 echo ""
 
@@ -82,27 +82,39 @@ else
 fi
 echo ""
 
-echo "Checking kubelet ServiceMonitor..."
-if kubectl get servicemonitor -n monitoring 2>/dev/null | grep -q "kubelet"; then
-    check_status "kubelet ServiceMonitor exists" 0
+echo "Checking Prometheus scrape and alert configuration..."
+PROM_CONFIG=$(kubectl get configmap prometheus-server -n monitoring -o yaml 2>/dev/null || echo "")
+if echo "$PROM_CONFIG" | grep -q "kubernetes-nodes-cadvisor"; then
+    check_status "cAdvisor scrape job configured" 0
 else
-    check_status "kubelet ServiceMonitor exists" 1
+    check_status "cAdvisor scrape job configured" 1
+fi
+if echo "$PROM_CONFIG" | grep -q "HTTP5xxErrorRateHigh"; then
+    check_status "HTTP5xxErrorRateHigh alert rule configured" 0
+else
+    check_status "HTTP5xxErrorRateHigh alert rule configured" 1
 fi
 echo ""
 
 echo "Checking Prometheus metric availability (MANDATORY)..."
+# Prometheus port is 9090 + team number (Week 2 HOST_PORT 8083 -> 9093). PROM_URL overrides it.
+if [ -z "$PROM_URL" ] && [ -f "week-2/.env" ]; then
+    HOST_PORT=$(grep -E "^HOST_PORT=" week-2/.env | cut -d '=' -f2)
+    PROM_URL="http://localhost:$(( ${HOST_PORT:-8080} + 1010 ))"
+fi
+PROM_URL="${PROM_URL:-http://localhost:9090}"
 if command -v curl &> /dev/null && command -v python3 &> /dev/null; then
-    QUERY_RESULT=$(curl -s 'http://localhost:9090/api/v1/query?query=container_cpu_cfs_throttled_seconds_total' 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); print('PASS') if d.get('data',{}).get('result') else print('FAIL')" 2>/dev/null || echo "SKIP")
+    QUERY_RESULT=$(curl -s "$PROM_URL/api/v1/query?query=container_cpu_cfs_throttled_periods_total" 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); print('PASS') if d.get('data',{}).get('result') else print('FAIL')" 2>/dev/null || echo "SKIP")
 
     if [ "$QUERY_RESULT" = "PASS" ]; then
-        check_status "container_cpu_cfs_throttled_seconds_total returns data (MANDATORY)" 0
+        check_status "container_cpu_cfs_throttled_periods_total returns data (MANDATORY)" 0
     elif [ "$QUERY_RESULT" = "SKIP" ]; then
-        echo -e "${YELLOW}[SKIP]${NC} container_cpu_cfs_throttled_seconds_total (requires port-forward)"
+        echo -e "${YELLOW}[SKIP]${NC} container_cpu_cfs_throttled_periods_total (requires port-forward to $PROM_URL)"
     else
-        check_status "container_cpu_cfs_throttled_seconds_total returns data (MANDATORY)" 1
+        check_status "container_cpu_cfs_throttled_periods_total returns data (MANDATORY)" 1
     fi
 else
-    echo -e "${YELLOW}[SKIP]${NC} container_cpu_cfs_throttled_seconds_total (requires curl and python3)"
+    echo -e "${YELLOW}[SKIP]${NC} container_cpu_cfs_throttled_periods_total (requires curl and python3)"
 fi
 echo ""
 
